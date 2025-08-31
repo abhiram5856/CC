@@ -1,0 +1,275 @@
+<!-- index.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+	<title>CampusConnect | Connect. Collaborate. Create.</title>
+	<link rel="stylesheet" href="styles.css"/>
+	<link rel="preconnect" href="https://fonts.googleapis.com">
+	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+	<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
+</head>
+<body>
+	<header class="nav">
+		<div class="nav-left">
+			<a href="index.html" class="brand">
+				<div class="brand-logo">CC</div>
+				<div class="brand-text">CampusConnect</div>
+			</a>
+		</div>
+		<div class="nav-center">
+			<a href="#about-us" class="nav-link">About Us</a>
+		</div>
+		<div class="nav-right">
+			<button class="theme-toggle" id="theme-toggle">
+				<span class="theme-icon">🌙</span>
+			</button>
+		</div>
+	</header>
+
+	<!-- Full Navigation (shown when authenticated) -->
+	<header class="nav full-nav" id="full-nav" style="display: none;">
+		<div class="nav-left">
+			<a href="index.html" class="brand">
+				<div class="brand-logo">CC</div>
+				<div class="brand-text">CampusConnect</div>
+			</a>
+		</div>
+		<div class="nav-center">
+			<a href="index.html" class="nav-link active">Home</a>
+			<a href="mentorship.html" class="nav-link">Mentorship Hub</a>
+			<a href="events.html" class="nav-link">Events & Opportunities</a>
+			<a href="skill-swap.html" class="nav-link">Skill Swap & Team Finder</a>
+			<a href="anonymous-chat.html" class="nav-link">Anonymous Chat</a>
+			<a href="#about-us" class="nav-link">About Us</a>
+		</div>
+		<div class="nav-right">
+			<div class="notifications-wrapper">
+				<button class="notifications-btn" id="notifications-btn">
+					<span class="notification-icon">🔔</span>
+					<span class="notification-badge" id="notification-badge">3</span>
+				</button>
+				<div class="notifications-dropdown" id="notifications-dropdown">
+					<div class="notification-header">
+						<h3>Notifications</h3>
+						<button class="clear-all-btn" id="clear-all-notifications">Clear All</button>
+					</div>
+					<div class="notifications-list">
+						<div class="notification-item unread">
+							<div class="notification-icon-item">💬</div>
+							<div class="notification-content">
+								<div class="notification-title">New Message</div>
+								<div class="notification-text">Sarah Chen sent you a message</div>
+								<div class="notification-time">2 minutes ago</div>
+							</div>
+						</div>
+						<div class="notification-item unread">
+							<div class="notification-icon-item">📅</div>
+							<div class="notification-content">
+								<div class="notification-title">Session Reminder</div>
+								<div class="notification-text">Mentorship session starts in 30 minutes</div>
+								<div class="notification-time">28 minutes ago</div>
+							</div>
+						</div>
+						<div class="notification-item">
+							<div class="notification-icon-item">🏆</div>
+							<div class="notification-content">
+								<div class="notification-title">New Badge Earned</div>
+								<div class="notification-text">You've earned the "Helper" badge!</div>
+								<div class="notification-time">1 hour ago</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="profile-dropdown">
+				<div class="nav-avatar" id="nav-avatar">AM</div>
+				<div class="profile-menu" id="profile-menu">
+					<button class="profile-menu-item" onclick="viewProfile()">
+						<span>👤</span> View Profile
+					</button>
+					<button class="profile-menu-item" onclick="editProfile()">
+						<span>✏️</span> Edit Profile
+					</button>
+					<button class="profile-menu-item logout" onclick="logout()">
+						<span>🚪</span> Logout
+					</button>
+				</div>
+			</div>
+			<button class="menu-toggle" id="menu-toggle">
+				<span></span>
+				<span></span>
+				<span></span>
+			</button>
+		</div>
+	</header>
+
+	<!-- Mobile Menu -->
+	<div class="mobile-menu" id="mobile-menu">
+		<nav class="mobile-nav">
+			<a href="index.html">Home</a>
+			<a href="mentorship.html">Mentorship Hub</a>
+			<a href="events.html">Events & Opportunities</a>
+			<a href="skill-swap.html">Skill Swap & Team Finder</a>
+			<a href="anonymous-chat.html">Anonymous Chat</a>
+			<a href="profile.html">Profile</a>
+			<a href="#about-us">About Us</a>
+			<!-- Auth buttons for non-authenticated users -->
+			<div class="mobile-auth" id="mobile-auth">
+				<a class="btn ghost" href="auth.html#signin">Sign In</a>
+				<a class="btn solid" href="auth.html#signup">Sign Up</a>
+			</div>
+			<!-- Logout option for authenticated users -->
+			<div class="mobile-logout" id="mobile-logout" style="display: none;">
+				<button class="btn ghost logout-btn-mobile" id="logout-btn-mobile">
+					<span class="logout-icon">🚪</span>
+					Logout
+				</button>
+			</div>
+		</nav>
+	</div>
+
+	<section class="hero">
+		<!-- For non-authenticated users -->
+		<div class="hero-content" id="hero-guest">
+			<h1>Connect.<br>Collaborate.<br>Create.</h1>
+			<div class="hero-ctas">
+				<a class="btn solid" href="auth.html#signup">Get Started</a>
+				<a class="btn ghost" href="auth.html#signin">Sign In</a>
+			</div>
+		</div>
+
+		<!-- For authenticated users -->
+		<div class="hero-content" id="hero-user" style="display: none;">
+			<div class="welcome-section">
+				<h2 id="welcome-text">Welcome back!</h2>
+				<p id="user-info">Ready to connect with your community?</p>
+			</div>
+			<div class="feature-highlights">
+				<div class="highlight-card">
+					<div class="highlight-icon">🎓</div>
+					<h3>Mentorship Hub</h3>
+					<p>Connect with seniors and alumni for personalized guidance and support.</p>
+					<a href="mentorship.html" class="highlight-link">Find Your Mentor →</a>
+				</div>
+				<div class="highlight-card">
+					<div class="highlight-icon">📅</div>
+					<h3>Events & Opportunities</h3>
+					<p>Discover workshops, hackathons, internships, and campus events.</p>
+					<a href="events.html" class="highlight-link">Browse Events →</a>
+				</div>
+				<div class="highlight-card">
+					<div class="highlight-icon">🤝</div>
+					<h3>Skill Swap & Team Finder</h3>
+					<p>Learn from peers and find teammates for hackathons/projects.</p>
+					<a href="skill-swap.html" class="highlight-link">Start Learning →</a>
+				</div>
+				<div class="highlight-card">
+					<div class="highlight-icon">💬</div>
+					<h3>Anonymous Chat</h3>
+					<p>Ask questions, Share concerns, get advice, and connect with peers without revealing your identity.</p>
+					<a href="anonymous-chat.html" class="highlight-link">Join Chat →</a>
+				</div>
+			</div>
+		</div>
+	</section>
+
+	<section class="features">
+		<h2>Why students trust CampusConnect?</h2>
+		<div class="features-grid">
+			<div class="feature">
+				<h4>Verified roles</h4>
+				<p>Onboarding for Freshman, Senior, and Alumni means relevant connections.</p>
+			</div>
+			<div class="feature">
+				<h4>Relevant matches</h4>
+				<p>Recommendations powered by your skills and interests.</p>
+			</div>
+			<div class="feature">
+				<h4>Privacy-first chat</h4>
+				<p>Anonymous discussion with moderation and reporting tools.</p>
+			</div>
+			<div class="feature">
+				<h4>One-stop hub</h4>
+				<p>Mentors, events, teams, and learning in one place.</p>
+			</div>
+		</div>
+	</section>
+
+	<!-- About Us Section -->
+	<section class="about-us" id="about-us">
+		<div class="about-container">
+			<h2>About CampusConnect</h2>
+			<div class="about-content">
+				<div class="about-text">
+					<p>CampusConnect is a comprehensive student networking platform designed to bridge the gap between students, seniors, and alumni. Our mission is to create a supportive ecosystem where knowledge sharing, mentorship, and collaboration thrive.</p>
+					
+					<h3>Our Vision</h3>
+					<p>To become the go-to platform for students seeking guidance, opportunities, and meaningful connections within their academic community and beyond.</p>
+					
+					<h3>What We Offer</h3>
+					<ul>
+						<li><strong>Mentorship Hub:</strong> Connect with experienced seniors and alumni for personalized guidance</li>
+						<li><strong>Events & Opportunities:</strong> Discover workshops, hackathons, internships, and campus events</li>
+						<li><strong>Skill Swap & Team Finder:</strong> Learn from peers and find teammates for projects</li>
+						<li><strong>Anonymous Chat:</strong> Ask questions and share concerns safely</li>
+					</ul>
+					
+					<h3>Our Values</h3>
+					<div class="values-grid">
+						<div class="value-item">
+							<div class="value-icon">🤝</div>
+							<h4>Community</h4>
+							<p>Building strong, supportive networks</p>
+						</div>
+						<div class="value-item">
+							<div class="value-icon">🔒</div>
+							<h4>Privacy</h4>
+							<p>Your data and identity are protected</p>
+						</div>
+						<div class="value-item">
+							<div class="value-icon">📚</div>
+							<h4>Learning</h4>
+							<p>Continuous growth and knowledge sharing</p>
+						</div>
+						<div class="value-item">
+							<div class="value-icon">🚀</div>
+							<h4>Innovation</h4>
+							<p>Embracing new ideas and technologies</p>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
+
+	<footer class="footer">
+		<div class="footer-content">
+			<div class="footer-section">
+				<h4>CampusConnect</h4>
+				<p>Connecting students, building futures.</p>
+			</div>
+			<div class="footer-section">
+				<h4>Quick Links</h4>
+				<a href="mentorship.html">Mentorship</a>
+				<a href="events.html">Events</a>
+				<a href="skill-swap.html">Skill Swap</a>
+				<a href="anonymous-chat.html">Chat</a>
+			</div>
+			<div class="footer-section">
+				<h4>Support</h4>
+				<a href="#about-us">About Us</a>
+				<a href="#">Help Center</a>
+				<a href="#">Contact</a>
+			</div>
+		</div>
+		<div class="footer-bottom">
+			<p>© 2025 CampusConnect. Built by students, for students.</p>
+		</div>
+	</footer>
+
+	<script src="script.js"></script>
+	<script src="shared.js"></script>
+</body>
+</html>

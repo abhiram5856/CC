@@ -1,0 +1,147 @@
+<!-- skill-swap.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8"/><meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+	<title>Skill Swap & Team Finder</title>
+	<link rel="stylesheet" href="styles.css"/>
+</head>
+<body>
+	<header class="nav">
+		<div class="nav-left">
+			<a href="index.html" class="brand">
+				<div class="brand-logo">CC</div>
+				<div class="brand-text">CampusConnect</div>
+			</a>
+		</div>
+		<div class="nav-center">
+			<a href="index.html" class="nav-link">Home</a>
+			<a href="mentorship.html" class="nav-link">Mentorship Hub</a>
+			<a href="events.html" class="nav-link">Events & Opportunities</a>
+			<a href="skill-swap.html" class="nav-link active">Skill Swap & Team Finder</a>
+			<a href="anonymous-chat.html" class="nav-link">Anonymous Chat</a>
+			<a href="index.html#about-us" class="nav-link">About Us</a>
+		</div>
+		<div class="nav-right">
+			<div class="notifications-wrapper">
+				<button class="notifications-btn" id="notifications-btn">
+					<span class="notification-icon">🔔</span>
+					<span class="notification-badge" id="notification-badge">1</span>
+				</button>
+				<div class="notifications-dropdown" id="notifications-dropdown">
+					<div class="notification-header">
+						<h3>Notifications</h3>
+						<button class="clear-all-btn" id="clear-all-notifications">Clear All</button>
+					</div>
+					<div class="notifications-list">
+						<div class="notification-item unread">
+							<div class="notification-icon-item">🤝</div>
+							<div class="notification-content">
+								<div class="notification-title">New Team Request</div>
+								<div class="notification-text">Alex wants to join your React project</div>
+								<div class="notification-time">10 minutes ago</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="profile-dropdown">
+				<div class="nav-avatar" id="nav-avatar">AM</div>
+				<div class="profile-menu" id="profile-menu">
+					<button class="profile-menu-item" onclick="viewProfile()">
+						<span>👤</span> View Profile
+					</button>
+					<button class="profile-menu-item" onclick="editProfile()">
+						<span>✏️</span> Edit Profile
+					</button>
+					<button class="profile-menu-item logout" onclick="logout()">
+						<span>🚪</span> Logout
+					</button>
+				</div>
+			</div>
+			<button class="menu-toggle" id="menu-toggle">
+				<span></span>
+				<span></span>
+				<span></span>
+			</button>
+		</div>
+	</header>
+
+	<!-- Mobile Menu -->
+	<div class="mobile-menu" id="mobile-menu">
+		<nav class="mobile-nav">
+			<a href="index.html">Home</a>
+			<a href="mentorship.html">Mentorship Hub</a>
+			<a href="events.html">Events & Opportunities</a>
+			<a href="skill-swap.html">Skill Swap & Team Finder</a>
+			<a href="anonymous-chat.html">Anonymous Chat</a>
+			<a href="profile.html">Profile</a>
+			<a href="index.html#about-us">About Us</a>
+			<!-- Auth buttons for non-authenticated users -->
+			<div class="mobile-auth" id="mobile-auth">
+				<a class="btn ghost" href="auth.html#signin">Sign In</a>
+				<a class="btn solid" href="auth.html#signup">Sign Up</a>
+			</div>
+			<!-- Logout option for authenticated users -->
+			<div class="mobile-logout" id="mobile-logout" style="display: none;">
+				<button class="btn ghost logout-btn-mobile" id="logout-btn-mobile">
+					<span class="logout-icon">🚪</span>
+					Logout
+				</button>
+			</div>
+		</nav>
+	</div>
+
+	<section class="features" style="margin-top:20px">
+		<h2>Skill Swap & Team Finder</h2>
+		<div class="form-grid" style="margin:12px 0">
+			<div class="form-row">
+				<label>You can teach</label>
+				<input id="teach" placeholder="e.g. Java, UI/UX, SQL"/>
+			</div>
+			<div class="form-row">
+				<label>You want to learn</label>
+				<input id="learn" placeholder="e.g. TensorFlow, Backend, Flutter"/>
+			</div>
+		</div>
+		<div class="form-actions">
+			<button class="btn solid" id="post">Post</button>
+			<p class="small">Find teammates for hacks and projects.</p>
+		</div>
+		<hr class="sep"/>
+		<div id="posts" class="features-grid"></div>
+	</section>
+
+	<script src="script.js"></script>
+	<script src="shared.js"></script>
+	<script>
+	const email=localStorage.getItem('gm_current');
+	const users=JSON.parse(localStorage.getItem('gm_users')||'[]');
+	const me=users.find(u=>u.email===email);
+	const posts=JSON.parse(localStorage.getItem('gm_posts')||'[]');
+	function save(){ localStorage.setItem('gm_posts',JSON.stringify(posts)); }
+	function render(){
+		const box=document.getElementById('posts'); box.innerHTML='';
+		posts.slice().reverse().forEach(p=>{
+			const el=document.createElement('div'); el.className='feature';
+			el.innerHTML=`<h4>${p.title}</h4>
+				<p>Teach: ${p.teach.join(', ')||'-'} • Learn: ${p.learn.join(', ')||'-'}</p>
+				<p class="small">By ${p.byName} (${p.role}, ${p.stream})</p>`;
+			box.appendChild(el);
+		});
+	}
+	document.getElementById('post').onclick=()=>{
+		if(!me){ alert('Please sign in to post.'); return; }
+		const teach=document.getElementById('teach').value.split(',').map(s=>s.trim()).filter(Boolean);
+		const learn=document.getElementById('learn').value.split(',').map(s=>s.trim()).filter(Boolean);
+		if(!teach.length && !learn.length){ alert('Add at least one skill.'); return; }
+		posts.push({
+			title:`Team/Swap by ${me.name}`,
+			teach,learn,by:me.email,byName:me.name,role:me.role,stream:me.stream,at:Date.now()
+		});
+		save(); render(); document.getElementById('teach').value=''; document.getElementById('learn').value='';
+	};
+	render();
+	</script>
+</body>
+</html>

@@ -1,0 +1,163 @@
+<!-- events.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8"/><meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+	<title>Events & Opportunities</title>
+	<link rel="stylesheet" href="styles.css"/>
+</head>
+<body>
+	<header class="nav">
+		<div class="nav-left">
+			<a href="index.html" class="brand">
+				<div class="brand-logo">CC</div>
+				<div class="brand-text">CampusConnect</div>
+			</a>
+		</div>
+		<div class="nav-center">
+			<a href="index.html" class="nav-link">Home</a>
+			<a href="mentorship.html" class="nav-link">Mentorship Hub</a>
+			<a href="events.html" class="nav-link active">Events & Opportunities</a>
+			<a href="skill-swap.html" class="nav-link">Skill Swap & Team Finder</a>
+			<a href="anonymous-chat.html" class="nav-link">Anonymous Chat</a>
+			<a href="index.html#about-us" class="nav-link">About Us</a>
+		</div>
+		<div class="nav-right">
+			<div class="notifications-wrapper">
+				<button class="notifications-btn" id="notifications-btn">
+					<span class="notification-icon">🔔</span>
+					<span class="notification-badge" id="notification-badge">2</span>
+				</button>
+				<div class="notifications-dropdown" id="notifications-dropdown">
+					<div class="notification-header">
+						<h3>Notifications</h3>
+						<button class="clear-all-btn" id="clear-all-notifications">Clear All</button>
+					</div>
+					<div class="notifications-list">
+						<div class="notification-item unread">
+							<div class="notification-icon-item">🎉</div>
+							<div class="notification-content">
+								<div class="notification-title">Event Starting Soon</div>
+								<div class="notification-text">AI/ML Workshop starts in 15 minutes</div>
+								<div class="notification-time">5 minutes ago</div>
+							</div>
+						</div>
+						<div class="notification-item">
+							<div class="notification-icon-item">📝</div>
+							<div class="notification-content">
+								<div class="notification-title">Event Registered</div>
+								<div class="notification-text">Successfully registered for Hackathon 2025</div>
+								<div class="notification-time">2 hours ago</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="profile-dropdown">
+				<div class="nav-avatar" id="nav-avatar">AM</div>
+				<div class="profile-menu" id="profile-menu">
+					<button class="profile-menu-item" onclick="viewProfile()">
+						<span>👤</span> View Profile
+					</button>
+					<button class="profile-menu-item" onclick="editProfile()">
+						<span>✏️</span> Edit Profile
+					</button>
+					<button class="profile-menu-item logout" onclick="logout()">
+						<span>🚪</span> Logout
+					</button>
+				</div>
+			</div>
+			<button class="menu-toggle" id="menu-toggle">
+				<span></span>
+				<span></span>
+				<span></span>
+			</button>
+		</div>
+	</header>
+
+	<!-- Mobile Menu -->
+	<div class="mobile-menu" id="mobile-menu">
+		<nav class="mobile-nav">
+			<a href="index.html">Home</a>
+			<a href="mentorship.html">Mentorship Hub</a>
+			<a href="events.html">Events & Opportunities</a>
+			<a href="skill-swap.html">Skill Swap & Team Finder</a>
+			<a href="anonymous-chat.html">Anonymous Chat</a>
+			<a href="profile.html">Profile</a>
+			<a href="index.html#about-us">About Us</a>
+			<!-- Auth buttons for non-authenticated users -->
+			<div class="mobile-auth" id="mobile-auth">
+				<a class="btn ghost" href="auth.html#signin">Sign In</a>
+				<a class="btn solid" href="auth.html#signup">Sign Up</a>
+			</div>
+			<!-- Logout option for authenticated users -->
+			<div class="mobile-logout" id="mobile-logout" style="display: none;">
+				<button class="btn ghost logout-btn-mobile" id="logout-btn-mobile">
+					<span class="logout-icon">🚪</span>
+					Logout
+				</button>
+			</div>
+		</nav>
+	</div>
+
+	<section class="features" style="margin-top:20px">
+		<h2>Events & Opportunities Hub</h2>
+		<p class="small">Filter by category, skills, and mode. Bookmark events you like.</p>
+		<div class="form-grid" style="margin:12px 0">
+			<div class="form-row">
+				<label>Category</label>
+				<select id="f-cat"><option>All</option><option>Workshop</option><option>Hackathon</option><option>Talk</option></select>
+			</div>
+			<div class="form-row">
+				<label>Skills</label>
+				<input id="f-skill" placeholder="e.g. Web, AI/ML, C++, React"/>
+			</div>
+			<div class="form-row">
+				<label>Mode</label>
+				<select id="f-mode"><option>All</option><option>Online</option><option>Offline</option></select>
+			</div>
+		</div>
+		<div id="events-list" class="features-grid"></div>
+	</section>
+
+	<script src="script.js"></script>
+	<script src="shared.js"></script>
+	<script>
+	const sampleEvents=[
+		{id:1,title:'Intro to React',cat:'Workshop',skills:['Web','React'],mode:'Online'},
+		{id:2,title:'48hr Hackfest',cat:'Hackathon',skills:['Any'],mode:'Offline'},
+		{id:3,title:'AI/ML Starter Camp',cat:'Workshop',skills:['AI/ML','Python'],mode:'Online'},
+		{id:4,title:'Cloud Talk',cat:'Talk',skills:['Cloud'],mode:'Offline'}
+	];
+	const bookmarks=new Set(JSON.parse(localStorage.getItem('gm_bookmarks')||'[]'));
+	function render(){
+		const cat=document.getElementById('f-cat').value;
+		const skill=document.getElementById('f-skill').value.toLowerCase();
+		const mode=document.getElementById('f-mode').value;
+		const list=document.getElementById('events-list'); list.innerHTML='';
+		sampleEvents.filter(e=>{
+			return (cat==='All'||e.cat===cat)&&
+				(mode==='All'||e.mode===mode)&&
+				(!skill||e.skills.join(',').toLowerCase().includes(skill));
+		}).forEach(e=>{
+			const el=document.createElement('div');
+			el.className='feature';
+			const mark=bookmarks.has(e.id)?'★':'☆';
+			el.innerHTML=`<h4>${e.title}</h4><p>${e.cat} • ${e.mode} • Skills: ${e.skills.join(', ')}</p>
+			<button class="btn ghost" data-id="${e.id}">${mark} Bookmark</button>`;
+			list.appendChild(el);
+		});
+		document.querySelectorAll('[data-id]').forEach(b=>{
+			b.onclick=()=>{
+				const id=Number(b.getAttribute('data-id'));
+				if(bookmarks.has(id)) bookmarks.delete(id); else bookmarks.add(id);
+				localStorage.setItem('gm_bookmarks',JSON.stringify([...bookmarks]));
+				render();
+			};
+		});
+	}
+	['f-cat','f-skill','f-mode'].forEach(id=>document.getElementById(id).addEventListener('input',render));
+	render();
+	</script>
+</body>
+</html>

@@ -1,0 +1,138 @@
+<!-- anonymous-chat.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8"/><meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+	<title>Anonymous Chat</title>
+	<link rel="stylesheet" href="styles.css"/>
+</head>
+<body>
+	<header class="nav">
+		<div class="nav-left">
+			<a href="index.html" class="brand">
+				<div class="brand-logo">CC</div>
+				<div class="brand-text">CampusConnect</div>
+			</a>
+		</div>
+		<div class="nav-center">
+			<a href="index.html" class="nav-link">Home</a>
+			<a href="mentorship.html" class="nav-link">Mentorship Hub</a>
+			<a href="events.html" class="nav-link">Events & Opportunities</a>
+			<a href="skill-swap.html" class="nav-link">Skill Swap & Team Finder</a>
+			<a href="anonymous-chat.html" class="nav-link active">Anonymous Chat</a>
+			<a href="index.html#about-us" class="nav-link">About Us</a>
+		</div>
+		<div class="nav-right">
+			<div class="notifications-wrapper">
+				<button class="notifications-btn" id="notifications-btn">
+					<span class="notification-icon">🔔</span>
+					<span class="notification-badge" id="notification-badge">0</span>
+				</button>
+				<div class="notifications-dropdown" id="notifications-dropdown">
+					<div class="notification-header">
+						<h3>Notifications</h3>
+						<button class="clear-all-btn" id="clear-all-notifications">Clear All</button>
+					</div>
+					<div class="notifications-list">
+						<div class="no-notifications">No new notifications</div>
+					</div>
+				</div>
+			</div>
+			<div class="profile-dropdown">
+				<div class="nav-avatar" id="nav-avatar">AM</div>
+				<div class="profile-menu" id="profile-menu">
+					<button class="profile-menu-item" onclick="viewProfile()">
+						<span>👤</span> View Profile
+					</button>
+					<button class="profile-menu-item" onclick="editProfile()">
+						<span>✏️</span> Edit Profile
+					</button>
+					<button class="profile-menu-item logout" onclick="logout()">
+						<span>🚪</span> Logout
+					</button>
+				</div>
+			</div>
+			<button class="menu-toggle" id="menu-toggle">
+				<span></span>
+				<span></span>
+				<span></span>
+			</button>
+		</div>
+	</header>
+
+	<!-- Mobile Menu -->
+	<div class="mobile-menu" id="mobile-menu">
+		<nav class="mobile-nav">
+			<a href="index.html">Home</a>
+			<a href="mentorship.html">Mentorship Hub</a>
+			<a href="events.html">Events & Opportunities</a>
+			<a href="skill-swap.html">Skill Swap & Team Finder</a>
+			<a href="anonymous-chat.html">Anonymous Chat</a>
+			<a href="profile.html">Profile</a>
+			<a href="index.html#about-us">About Us</a>
+					<!-- Auth buttons for non-authenticated users -->
+		<div class="mobile-auth" id="mobile-auth">
+			<a class="btn ghost" href="auth.html#signin">Sign In</a>
+			<a class="btn solid" href="auth.html#signup">Sign Up</a>
+		</div>
+		<!-- Logout option for authenticated users -->
+		<div class="mobile-logout" id="mobile-logout" style="display: none;">
+			<button class="btn ghost logout-btn-mobile" id="logout-btn-mobile">
+				<span class="logout-icon">🚪</span>
+				Logout
+			</button>
+		</div>
+		</nav>
+	</div>
+
+	<section class="features" style="margin-top:20px">
+		<h2>Anonymous Chat</h2>
+		<p class="small">Global anonymous lounge and 1:1 anonymous chats. Moderation and reporting supported.</p>
+		<div class="form-grid">
+		 <div class="form-row" style="grid-column:1/-1">
+		  <label>Your message (anonymous)</label>
+		  <input id="msg" placeholder="Ask anything respectfully..."/>
+		 </div>
+		</div>
+		<div class="form-actions">
+			<button class="btn solid" id="send">Send</button>
+			<p class="small">Report inappropriate content using the flag button.</p>
+		</div>
+		<hr class="sep"/>
+		<div id="chat"></div>
+	</section>
+
+	<script src="script.js"></script>
+	<script src="shared.js"></script>
+	<script>
+	const feed=JSON.parse(localStorage.getItem('gm_anon_feed')||'[]');
+	function save(){ localStorage.setItem('gm_anon_feed',JSON.stringify(feed)); }
+	function render(){
+		const box=document.getElementById('chat'); box.innerHTML='';
+		feed.slice().reverse().forEach((m,idx)=>{
+			const div=document.createElement('div');
+			div.className='feature';
+			div.innerHTML=`<p>${m.text}</p>
+			<div class="form-actions">
+				<span class="small">Anon • ${new Date(m.at).toLocaleString()}</span>
+				<span>
+					<button class="btn ghost" data-flag="${idx}">🚩 Report</button>
+					<button class="btn ghost" data-del="${idx}">🗑️ Remove (admin demo)</button>
+				</span>
+			</div>`;
+			box.appendChild(div);
+		});
+		document.querySelectorAll('[data-flag]').forEach(b=>b.onclick=()=>alert('Reported. Moderators will review.'));
+		document.querySelectorAll('[data-del]').forEach(b=>b.onclick=()=>{
+			const i=Number(b.getAttribute('data-del')); feed.splice(feed.length-1-i,1); save(); render();
+		});
+	}
+	document.getElementById('send').onclick=()=>{
+		const t=document.getElementById('msg').value.trim();
+		if(!t){ alert('Type a message.'); return; }
+		feed.push({text:t,at:Date.now()}); save(); render(); document.getElementById('msg').value='';
+	};
+	render();
+	</script>
+</body>
+</html>

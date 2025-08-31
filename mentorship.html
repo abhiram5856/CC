@@ -1,0 +1,420 @@
+<!-- mentorship.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8"/>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+	<title>Mentorship Dashboard | CampusConnect</title>
+	<link rel="stylesheet" href="styles.css"/>
+	<link rel="stylesheet" href="mentorship.css"/>
+	<link rel="preconnect" href="https://fonts.googleapis.com">
+	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+	<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
+</head>
+<body>
+	<header class="nav">
+		<div class="nav-left">
+			<a href="index.html" class="brand">
+				<div class="brand-logo">CC</div>
+				<div class="brand-text">CampusConnect</div>
+			</a>
+		</div>
+		<div class="nav-center">
+			<a href="index.html" class="nav-link">Home</a>
+			<a href="mentorship.html" class="nav-link active">Mentorship Hub</a>
+			<a href="events.html" class="nav-link">Events</a>
+			<a href="skill-swap.html" class="nav-link">Skill Swap</a>
+			<a href="anonymous-chat.html" class="nav-link">Anonymous Chat</a>
+			<a href="index.html#about-us" class="nav-link">About Us</a>
+		</div>
+		<div class="nav-right">
+			<div class="notifications-wrapper">
+				<button class="notifications-btn" id="notifications-btn">
+					<span class="notification-icon">🔔</span>
+					<span class="notification-badge" id="notification-badge">3</span>
+				</button>
+				<div class="notifications-dropdown" id="notifications-dropdown">
+					<div class="notification-header">
+						<h3>Notifications</h3>
+						<button class="clear-all-btn" id="clear-all-notifications">Clear All</button>
+					</div>
+					<div class="notifications-list">
+						<div class="notification-item unread">
+							<div class="notification-icon-item">🎓</div>
+							<div class="notification-content">
+								<div class="notification-title">New Mentorship Request</div>
+								<div class="notification-text">Sarah Chen wants to connect with you for React guidance</div>
+								<div class="notification-time">2 minutes ago</div>
+							</div>
+						</div>
+						<div class="notification-item unread">
+							<div class="notification-icon-item">📅</div>
+							<div class="notification-content">
+								<div class="notification-title">Session Reminder</div>
+								<div class="notification-text">Your mentoring session with Alex starts in 30 minutes</div>
+								<div class="notification-time">28 minutes ago</div>
+							</div>
+						</div>
+						<div class="notification-item">
+							<div class="notification-icon-item">🏆</div>
+							<div class="notification-content">
+								<div class="notification-title">New Badge Earned</div>
+								<div class="notification-text">You've earned the "Mentor" badge!</div>
+								<div class="notification-time">1 hour ago</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="profile-dropdown">
+				<div class="nav-avatar" id="nav-avatar">AM</div>
+				<div class="profile-menu" id="profile-menu">
+					<button class="profile-menu-item" onclick="viewProfile()">
+						<span>👤</span> View Profile
+					</button>
+					<button class="profile-menu-item" onclick="editProfile()">
+						<span>✏️</span> Edit Profile
+					</button>
+					<button class="profile-menu-item logout" onclick="logout()">
+						<span>🚪</span> Logout
+					</button>
+				</div>
+			</div>
+			<button class="menu-toggle" id="menu-toggle">
+				<span></span>
+				<span></span>
+				<span></span>
+			</button>
+		</div>
+	</header>
+
+	<!-- Mobile Menu -->
+	<div class="mobile-menu" id="mobile-menu">
+		<nav class="mobile-nav">
+			<a href="index.html">Home</a>
+			<a href="mentorship.html">Mentorship Hub</a>
+			<a href="events.html">Events & Opportunities</a>
+			<a href="skill-swap.html">Skill Swap & Team Finder</a>
+			<a href="anonymous-chat.html">Anonymous Chat</a>
+			<a href="profile.html">Profile</a>
+			<a href="index.html#about-us">About Us</a>
+			<!-- Auth buttons for non-authenticated users -->
+			<div class="mobile-auth" id="mobile-auth">
+				<a class="btn ghost" href="auth.html#signin">Sign In</a>
+				<a class="btn solid" href="auth.html#signup">Sign Up</a>
+			</div>
+			<!-- Logout option for authenticated users -->
+			<div class="mobile-logout" id="mobile-logout" style="display: none;">
+				<button class="btn ghost logout-btn-mobile" id="logout-btn-mobile">
+					<span class="logout-icon">🚪</span>
+					Logout
+				</button>
+			</div>
+		</nav>
+	</div>
+
+	<!-- Navigation -->
+	<nav class="mentorship-nav">
+		<div class="nav-tabs">
+			<button class="nav-tab active" data-section="find-mentors">Find Mentors</button>
+			<button class="nav-tab" data-section="messages">Messages</button>
+		</div>
+	</nav>
+
+	<!-- Mentorship Header -->
+	<div class="mentorship-header">
+		<h1>Mentorship Made Simple.</h1>
+		<p>Real advice, Real people, Real growth</p>
+	</div>
+
+	<!-- Notifications Dropdown -->
+	<div class="notifications-dropdown" id="notifications-dropdown">
+		<div class="notification-header">
+			<h3>Notifications</h3>
+			<button class="clear-all-btn" onclick="clearAllNotifications()">Clear All</button>
+		</div>
+		<div class="notifications-list">
+			<div class="notification-item unread">
+				<div class="notification-icon">💬</div>
+				<div class="notification-content">
+					<p><strong>John Doe</strong> replied to your message</p>
+					<span class="notification-time">2 min ago</span>
+				</div>
+			</div>
+			<div class="notification-item unread">
+				<div class="notification-icon">📅</div>
+				<div class="notification-content">
+					<p><strong>Sarah Chen</strong> confirmed your session</p>
+					<span class="notification-time">1 hour ago</span>
+				</div>
+			</div>
+			<div class="notification-item">
+				<div class="notification-icon">⭐</div>
+				<div class="notification-content">
+					<p>You earned a new badge: <strong>Active Learner</strong></p>
+					<span class="notification-time">3 hours ago</span>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<!-- Main Content -->
+	<main class="mentorship-content">
+		<!-- Find Mentors Section -->
+		<section class="content-section active" id="find-mentors">
+			<div class="section-header">
+				<h2>Find Your Mentor</h2>
+				<select id="category-filter" class="filter-select">
+					<option value="">All Categories</option>
+					<option value="webdev">Web Development</option>
+					<option value="aiml">AI/ML</option>
+					<option value="cybersecurity">Cybersecurity</option>
+				</select>
+			</div>
+
+			<!-- Role Tabs -->
+			<div class="role-tabs">
+				<button class="role-tab active" data-role="mentors">Working Professionals</button>
+				<button class="role-tab" data-role="students">Fellow Students</button>
+			</div>
+
+			<!-- People Grid -->
+			<div class="people-grid">
+				<!-- Mentors -->
+				<div class="person-card mentor" data-category="webdev">
+					<div class="person-avatar">JD</div>
+					<div class="person-info">
+						<h3>John Doe</h3>
+						<p>Senior Frontend Developer at Google</p>
+						<div class="person-skills">
+							<span class="skill-tag">React</span>
+							<span class="skill-tag">JavaScript</span>
+							<span class="skill-tag">Node.js</span>
+						</div>
+						<button class="connect-btn" onclick="openRequestModal('John Doe', 'Senior Frontend Developer at Google')">Connect</button>
+					</div>
+				</div>
+
+				<div class="person-card mentor" data-category="aiml">
+					<div class="person-avatar">SC</div>
+					<div class="person-info">
+						<h3>Sarah Chen</h3>
+						<p>ML Engineer at Microsoft</p>
+						<div class="person-skills">
+							<span class="skill-tag">Python</span>
+							<span class="skill-tag">TensorFlow</span>
+							<span class="skill-tag">PyTorch</span>
+						</div>
+						<button class="connect-btn" onclick="openRequestModal('Sarah Chen', 'ML Engineer at Microsoft')">Connect</button>
+					</div>
+				</div>
+
+				<div class="person-card mentor" data-category="cybersecurity">
+					<div class="person-avatar">MR</div>
+					<div class="person-info">
+						<h3>Mike Rodriguez</h3>
+						<p>Security Analyst at Amazon</p>
+						<div class="person-skills">
+							<span class="skill-tag">Network Security</span>
+							<span class="skill-tag">Ethical Hacking</span>
+						</div>
+						<button class="connect-btn" onclick="openRequestModal('Mike Rodriguez', 'Security Analyst at Amazon')">Connect</button>
+					</div>
+				</div>
+
+				<!-- Students -->
+				<div class="person-card student" data-category="webdev" style="display: none;">
+					<div class="person-avatar">AL</div>
+					<div class="person-info">
+						<h3>Alex Liu</h3>
+						<p>Computer Science Student at Stanford</p>
+						<div class="person-skills">
+							<span class="skill-tag">HTML/CSS</span>
+							<span class="skill-tag">JavaScript</span>
+							<span class="skill-tag">Vue.js</span>
+						</div>
+						<button class="connect-btn" onclick="openRequestModal('Alex Liu', 'CS Student at Stanford')">Connect</button>
+					</div>
+				</div>
+
+				<div class="person-card student" data-category="aiml" style="display: none;">
+					<div class="person-avatar">EP</div>
+					<div class="person-info">
+						<h3>Emma Parker</h3>
+						<p>Data Science Student at MIT</p>
+						<div class="person-skills">
+							<span class="skill-tag">Python</span>
+							<span class="skill-tag">Pandas</span>
+							<span class="skill-tag">Scikit-learn</span>
+						</div>
+						<button class="connect-btn" onclick="openRequestModal('Emma Parker', 'Data Science Student at MIT')">Connect</button>
+					</div>
+				</div>
+
+				<div class="person-card student" data-category="cybersecurity" style="display: none;">
+					<div class="person-avatar">RJ</div>
+					<div class="person-info">
+						<h3>Ryan Johnson</h3>
+						<p>Cybersecurity Student at Carnegie Mellon</p>
+						<div class="person-skills">
+							<span class="skill-tag">Network Security</span>
+							<span class="skill-tag">Cryptography</span>
+							<span class="skill-tag">Linux</span>
+						</div>
+						<button class="connect-btn" onclick="openRequestModal('Ryan Johnson', 'Cybersecurity Student at Carnegie Mellon')">Connect</button>
+					</div>
+				</div>
+			</div>
+		</section>
+
+		<!-- My Sessions Section -->
+		<section class="content-section" id="my-sessions">
+			<div class="section-header">
+				<h2>My Sessions</h2>
+				<button class="btn solid">Schedule New</button>
+			</div>
+			<div class="sessions-simple">
+				<div class="session-item">
+					<div class="session-info">
+						<h4>React Basics with John</h4>
+						<p>Tomorrow 2:00 PM</p>
+					</div>
+					<span class="status confirmed">Confirmed</span>
+				</div>
+				<div class="session-item">
+					<div class="session-info">
+						<h4>ML Career Chat with Sarah</h4>
+						<p>Friday 4:00 PM</p>
+					</div>
+					<span class="status pending">Pending</span>
+				</div>
+			</div>
+		</section>
+
+		<!-- Messages Section -->
+		<section class="content-section" id="messages">
+			<div class="section-header">
+				<h2>Messages</h2>
+				<div class="message-actions">
+					<button class="btn-secondary" onclick="markAllRead()">Mark All Read</button>
+				</div>
+			</div>
+			
+			<div class="messages-list">
+				<div class="message-item unread">
+					<div class="message-avatar">JD</div>
+					<div class="message-content">
+						<div class="message-header">
+							<h4>John Doe</h4>
+							<span class="message-time">2 min ago</span>
+						</div>
+						<p>Thanks for your detailed request! I'd love to help you with React hooks. Let's schedule a session this week.</p>
+						<div class="message-actions-inline">
+							<button class="reply-btn" onclick="openReplyModal('John Doe')">Reply</button>
+							<button class="schedule-btn" onclick="openScheduleModal('John Doe')">Schedule</button>
+						</div>
+					</div>
+				</div>
+
+				<div class="message-item">
+					<div class="message-avatar">SC</div>
+					<div class="message-content">
+						<div class="message-header">
+							<h4>Sarah Chen</h4>
+							<span class="message-time">1 hour ago</span>
+						</div>
+						<p>Great progress on your ML project! The neural network implementation looks solid. Ready for our next session?</p>
+						<div class="message-actions-inline">
+							<button class="reply-btn" onclick="openReplyModal('Sarah Chen')">Reply</button>
+							<button class="schedule-btn" onclick="openScheduleModal('Sarah Chen')">Schedule</button>
+						</div>
+					</div>
+				</div>
+
+				<div class="message-item">
+					<div class="message-avatar">MR</div>
+					<div class="message-content">
+						<div class="message-header">
+							<h4>Mike Rodriguez</h4>
+							<span class="message-time">3 hours ago</span>
+						</div>
+						<p>I've reviewed your security audit checklist. There are a few areas we should focus on. Let me know when you're free.</p>
+						<div class="message-actions-inline">
+							<button class="reply-btn" onclick="openReplyModal('Mike Rodriguez')">Reply</button>
+							<button class="schedule-btn" onclick="openScheduleModal('Mike Rodriguez')">Schedule</button>
+						</div>
+					</div>
+				</div>
+			</div>
+
+			<!-- Quick Reply Input -->
+			<div class="quick-reply">
+				<input type="text" id="quick-reply-input" placeholder="Type a quick message...">
+				<button class="send-btn" onclick="sendQuickReply()">Send</button>
+			</div>
+		</section>
+	</main>
+
+	<!-- Request Modal -->
+	<div class="modal-overlay" id="request-modal">
+		<div class="modal">
+			<div class="modal-header">
+				<h3>Send Connection Request</h3>
+				<button class="close-btn" onclick="closeRequestModal()">&times;</button>
+			</div>
+			<div class="modal-body">
+				<div class="mentor-preview">
+					<div class="mentor-avatar" id="modal-avatar">JD</div>
+					<div>
+						<h4 id="modal-name">John Doe</h4>
+						<p id="modal-role">Senior Frontend Developer at Google</p>
+					</div>
+				</div>
+				
+				<form class="request-form" onsubmit="submitRequest(event)">
+					<div class="form-group">
+						<label>What specific topic do you need help with?</label>
+						<input type="text" id="help-topic" placeholder="e.g., React hooks, API integration, debugging..." required>
+					</div>
+					
+					<div class="form-group">
+						<label>Describe your current challenge or doubt:</label>
+						<textarea id="challenge-description" placeholder="Tell them about your specific problem, what you've tried, and where you're stuck..." rows="4" required></textarea>
+					</div>
+					
+					<div class="form-group">
+						<label>What's your experience level?</label>
+						<select id="experience-level" required>
+							<option value="">Select your level</option>
+							<option value="beginner">Beginner (0-6 months)</option>
+							<option value="intermediate">Intermediate (6 months - 2 years)</option>
+							<option value="advanced">Advanced (2+ years)</option>
+						</select>
+					</div>
+					
+					<div class="form-group">
+						<label>Preferred session format:</label>
+						<select id="session-format" required>
+							<option value="">Choose format</option>
+							<option value="video-call">Video Call</option>
+							<option value="chat">Text Chat</option>
+							<option value="code-review">Code Review</option>
+							<option value="pair-programming">Pair Programming</option>
+						</select>
+					</div>
+					
+					<div class="form-actions">
+						<button type="button" class="btn-secondary" onclick="closeRequestModal()">Cancel</button>
+						<button type="submit" class="btn-primary">Send Request</button>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+
+
+	<script src="script.js"></script>
+	<script src="shared.js"></script>
+	<script src="mentorship.js"></script>
+</body>
+</html>

@@ -1,0 +1,531 @@
+<!-- profile.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8"/>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+	<title>CampusConnect | Profile</title>
+	<link rel="stylesheet" href="styles.css"/>
+</head>
+<body>
+	<header class="nav">
+		<div class="nav-left">
+			<a href="index.html" class="brand">
+				<div class="brand-logo">CC</div>
+				<div class="brand-text">CampusConnect</div>
+			</a>
+		</div>
+		<div class="nav-center">
+			<a href="index.html" class="nav-link">Home</a>
+			<a href="mentorship.html" class="nav-link">Mentorship Hub</a>
+			<a href="events.html" class="nav-link">Events & Opportunities</a>
+			<a href="skill-swap.html" class="nav-link">Skill Swap & Team Finder</a>
+			<a href="anonymous-chat.html" class="nav-link">Anonymous Chat</a>
+			<a href="index.html#about-us" class="nav-link">About Us</a>
+		</div>
+		<div class="nav-right">
+			<div class="notifications-wrapper">
+				<button class="notifications-btn" id="notifications-btn">
+					<span class="notification-icon">🔔</span>
+					<span class="notification-badge" id="notification-badge">1</span>
+				</button>
+				<div class="notifications-dropdown" id="notifications-dropdown">
+					<div class="notification-header">
+						<h3>Notifications</h3>
+						<button class="clear-all-btn" id="clear-all-notifications">Clear All</button>
+					</div>
+					<div class="notifications-list">
+						<div class="notification-item unread">
+							<div class="notification-icon-item">🏆</div>
+							<div class="notification-content">
+								<div class="notification-title">Profile Updated</div>
+								<div class="notification-text">Your profile information has been successfully updated</div>
+								<div class="notification-time">Just now</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="profile-dropdown">
+				<div class="nav-avatar" id="nav-avatar">AM</div>
+				<div class="profile-menu" id="profile-menu">
+					<button class="profile-menu-item" onclick="viewProfile()">
+						<span>👤</span> View Profile
+					</button>
+					<button class="profile-menu-item" onclick="editProfile()">
+						<span>✏️</span> Edit Profile
+					</button>
+					<button class="profile-menu-item logout" onclick="logout()">
+						<span>🚪</span> Logout
+					</button>
+				</div>
+			</div>
+			<button class="menu-toggle" id="menu-toggle">
+				<span></span>
+				<span></span>
+				<span></span>
+			</button>
+		</div>
+	</header>
+
+	<!-- Mobile Menu -->
+	<div class="mobile-menu" id="mobile-menu">
+		<nav class="mobile-nav">
+			<a href="index.html">Home</a>
+			<a href="mentorship.html">Mentorship Hub</a>
+			<a href="events.html">Events & Opportunities</a>
+			<a href="skill-swap.html">Skill Swap & Team Finder</a>
+			<a href="anonymous-chat.html">Anonymous Chat</a>
+			<a href="profile.html">Profile</a>
+			<a href="index.html#about-us">About Us</a>
+			<!-- Auth buttons for non-authenticated users -->
+			<div class="mobile-auth" id="mobile-auth">
+				<a class="btn ghost" href="auth.html#signin">Sign In</a>
+				<a class="btn solid" href="auth.html#signup">Sign Up</a>
+			</div>
+			<!-- Logout option for authenticated users -->
+			<div class="mobile-logout" id="mobile-logout" style="display: none;">
+				<button class="btn ghost logout-btn-mobile" id="logout-btn-mobile">
+					<span class="logout-icon">🚪</span>
+					Logout
+				</button>
+			</div>
+		</nav>
+	</div>
+
+	<div class="profile-wrap">
+		<div class="profile-header">
+			<div class="profile-avatar" id="profile-avatar">
+				<span id="avatar-initial">U</span>
+			</div>
+			<div class="profile-info">
+				<h1 id="profile-name">User Name</h1>
+				<p id="profile-role">Role • Stream • Year</p>
+				<p id="profile-email">email@example.com</p>
+				<div class="profile-actions">
+					<button class="btn solid" onclick="openEditProfileModal()">Edit Profile</button>
+					<button class="btn ghost logout-btn" onclick="logout()">
+						<span class="logout-icon">🚪</span>
+						Logout
+					</button>
+				</div>
+			</div>
+		</div>
+
+		<div class="profile-content">
+			<div class="profile-section">
+				<h2>Personal Information</h2>
+				<div class="info-grid">
+					<div class="info-item">
+						<label>Full Name</label>
+						<p id="info-name">-</p>
+					</div>
+					<div class="info-item">
+						<label>Email</label>
+						<p id="info-email">-</p>
+					</div>
+					<div class="info-item">
+						<label>Role</label>
+						<p id="info-role">-</p>
+					</div>
+					<div class="info-item">
+						<label>Year of Study</label>
+						<p id="info-year">-</p>
+					</div>
+					<div class="info-item">
+						<label>Stream</label>
+						<p id="info-stream">-</p>
+					</div>
+					<div class="info-item">
+						<label>Member Since</label>
+						<p id="info-joined">-</p>
+					</div>
+				</div>
+			</div>
+
+			<div class="profile-section">
+				<h2>Interests & Skills</h2>
+				<div class="interests-container" id="interests-container">
+					<!-- Interests will be populated here -->
+				</div>
+			</div>
+
+			<div class="profile-section">
+				<h2>Badges & Achievements</h2>
+				<div class="badges-container" id="badges-container">
+					<div class="badge">
+						<div class="badge-icon">🎓</div>
+						<div class="badge-info">
+							<h4>First Steps</h4>
+							<p>Successfully joined CampusConnect</p>
+						</div>
+					</div>
+					<div class="badge">
+						<div class="badge-icon">🤝</div>
+						<div class="badge-info">
+							<h4>Community Builder</h4>
+							<p>Connected with 5+ peers</p>
+						</div>
+					</div>
+					<div class="badge locked">
+						<div class="badge-icon">🏆</div>
+						<div class="badge-info">
+							<h4>Mentor</h4>
+							<p>Help 10+ students (Locked)</p>
+						</div>
+					</div>
+					<div class="badge locked">
+						<div class="badge-icon">🚀</div>
+						<div class="badge-info">
+							<h4>Event Master</h4>
+							<p>Attend 5+ events (Locked)</p>
+						</div>
+					</div>
+				</div>
+			</div>
+
+			<div class="profile-section">
+				<h2>Change Password</h2>
+				<form id="change-password-form" class="password-form">
+					<div class="form-row">
+						<label>Current Password</label>
+						<div class="password-input-container">
+							<input type="password" id="current-password" placeholder="Enter current password" required/>
+							<button type="button" class="password-toggle" id="current-password-toggle">👁️</button>
+						</div>
+					</div>
+					<div class="form-row">
+						<label>New Password</label>
+						<div class="password-input-container">
+							<input type="password" id="new-password" placeholder="Enter new password" required minlength="6"/>
+							<button type="button" class="password-toggle" id="new-password-toggle">👁️</button>
+						</div>
+					</div>
+					<div class="form-row">
+						<label>Confirm New Password</label>
+						<div class="password-input-container">
+							<input type="password" id="confirm-password" placeholder="Confirm new password" required minlength="6"/>
+							<button type="button" class="password-toggle" id="confirm-password-toggle">👁️</button>
+						</div>
+					</div>
+					<button type="submit" class="btn solid">Update Password</button>
+				</form>
+			</div>
+		</div>
+	</div>
+
+	<!-- Edit Profile Modal -->
+	<div class="modal" id="edit-modal">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h3>Edit Profile</h3>
+				<button class="close-btn" onclick="closeEditModal()">&times;</button>
+			</div>
+			<form id="edit-form">
+				<div class="form-grid">
+					<div class="form-row">
+						<label>Full Name</label>
+						<input type="text" id="edit-name" placeholder="Your name" required/>
+					</div>
+					<div class="form-row">
+						<label>Role</label>
+						<select id="edit-role" required>
+							<option value="">Select</option>
+							<option>Junior</option>
+							<option>Senior</option>
+							<option>Alumni</option>
+						</select>
+					</div>
+					<div class="form-row">
+						<label>Year of Study</label>
+						<select id="edit-year" required>
+							<option value="">Select</option>
+							<option>I</option>
+							<option>II</option>
+							<option>III</option>
+							<option>IV</option>
+						</select>
+					</div>
+					<div class="form-row">
+						<label>Stream</label>
+						<select id="edit-stream" required>
+							<option value="">Select</option>
+							<option>CSE</option>
+							<option>IT</option>
+							<option>AIML</option>
+							<option>DS</option>
+							<option>Cybersecurity</option>
+							<option>EEE</option>
+							<option>ECE</option>
+							<option>Mechanical</option>
+							<option>Civil</option>
+						</select>
+					</div>
+					<div class="form-row" style="grid-column:1/-1">
+						<label>Interests (comma separated)</label>
+						<input type="text" id="edit-interests" placeholder="e.g. Python, WebDev, AI/ML, Music, Sports"/>
+					</div>
+				</div>
+				<div class="modal-actions">
+					<button type="button" class="btn ghost" onclick="closeEditModal()">Cancel</button>
+					<button type="submit" class="btn solid">Save Changes</button>
+				</div>
+			</form>
+		</div>
+	</div>
+
+	<!-- Change Password Modal -->
+	<div class="modal" id="password-modal">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h3>Change Password</h3>
+				<button class="close-btn" onclick="closePasswordModal()">&times;</button>
+			</div>
+			<form id="password-form">
+				<div class="form-grid">
+					<div class="form-row">
+						<label>Current Password</label>
+						<div class="password-input-container">
+							<input type="password" id="current-password" placeholder="Enter current password" required/>
+							<button type="button" class="password-toggle" id="current-password-toggle">👁️</button>
+						</div>
+					</div>
+					<div class="form-row">
+						<label>New Password</label>
+						<div class="password-input-container">
+							<input type="password" id="new-password" placeholder="Enter new password" required minlength="6"/>
+							<button type="button" class="password-toggle" id="new-password-toggle">👁️</button>
+						</div>
+					</div>
+					<div class="form-row">
+						<label>Confirm New Password</label>
+						<div class="password-input-container">
+							<input type="password" id="confirm-password" placeholder="Confirm new password" required minlength="6"/>
+							<button type="button" class="password-toggle" id="confirm-password-toggle">👁️</button>
+						</div>
+					</div>
+				</div>
+				<div class="modal-actions">
+					<button type="button" class="btn ghost" onclick="closePasswordModal()">Cancel</button>
+					<button type="submit" class="btn solid">Update Password</button>
+				</div>
+			</form>
+		</div>
+	</div>
+
+	<script src="script.js"></script>
+	<script src="shared.js"></script>
+	<script>
+	// Profile page functionality
+	function loadProfileData() {
+		const currentUser = localStorage.getItem('gm_current');
+		if (!currentUser) {
+			window.location.href = 'auth.html#signin';
+			return;
+		}
+
+		const users = JSON.parse(localStorage.getItem('gm_users') || '[]');
+		const user = users.find(u => u.email === currentUser);
+
+		if (user) {
+			// Update profile header
+			const profileName = document.getElementById('profile-name');
+			const profileRole = document.getElementById('profile-role');
+			const profileEmail = document.getElementById('profile-email');
+			const avatarInitial = document.getElementById('avatar-initial');
+			const navAvatar = document.getElementById('nav-avatar');
+			
+			if (profileName) profileName.textContent = user.name || 'Unknown User';
+			if (profileRole) profileRole.textContent = `${user.role || 'Student'} • ${user.stream || 'General'} • ${user.year || 'N/A'}`;
+			if (profileEmail) profileEmail.textContent = user.email || '';
+			if (avatarInitial) avatarInitial.textContent = (user.name || 'U').charAt(0).toUpperCase();
+			if (navAvatar) navAvatar.textContent = (user.name || 'U').charAt(0).toUpperCase();
+
+			// Update info grid
+			const infoName = document.getElementById('info-name');
+			const infoEmail = document.getElementById('info-email');
+			const infoRole = document.getElementById('info-role');
+			const infoYear = document.getElementById('info-year');
+			const infoStream = document.getElementById('info-stream');
+			const infoJoined = document.getElementById('info-joined');
+			
+			if (infoName) infoName.textContent = user.name || 'Not specified';
+			if (infoEmail) infoEmail.textContent = user.email || 'Not specified';
+			if (infoRole) infoRole.textContent = user.role || 'Not specified';
+			if (infoYear) infoYear.textContent = user.year || 'Not specified';
+			if (infoStream) infoStream.textContent = user.stream || 'Not specified';
+			if (infoJoined) infoJoined.textContent = user.createdAt ? new Date(user.createdAt).toLocaleDateString() : new Date().toLocaleDateString();
+
+			// Update interests
+			const interestsContainer = document.getElementById('interests-container');
+			if (interestsContainer) {
+				if (user.interests && user.interests.length > 0) {
+					interestsContainer.innerHTML = user.interests.map(interest => 
+						`<span class="interest-tag">${interest}</span>`
+					).join('');
+				} else {
+					interestsContainer.innerHTML = '<p class="no-data">No interests added yet.</p>';
+				}
+			}
+		}
+	}
+
+	// Modal functionality
+	function openEditProfileModal() {
+		const editModal = document.getElementById('edit-modal');
+		if (editModal) {
+			editModal.style.display = 'flex';
+			
+			// Pre-fill the form with current user data
+			const currentUser = localStorage.getItem('gm_current');
+			if (currentUser) {
+				const users = JSON.parse(localStorage.getItem('gm_users') || '[]');
+				const user = users.find(u => u.email === currentUser);
+				
+				if (user) {
+					const editName = document.getElementById('edit-name');
+					const editRole = document.getElementById('edit-role');
+					const editYear = document.getElementById('edit-year');
+					const editStream = document.getElementById('edit-stream');
+					const editInterests = document.getElementById('edit-interests');
+					
+					if (editName) editName.value = user.name || '';
+					if (editRole) editRole.value = user.role || '';
+					if (editYear) editYear.value = user.year || '';
+					if (editStream) editStream.value = user.stream || '';
+					if (editInterests) editInterests.value = user.interests ? user.interests.join(', ') : '';
+				}
+			}
+		}
+	}
+
+	function openEditModal() {
+		openEditProfileModal();
+	}
+
+	function closeEditModal() {
+		const editModal = document.getElementById('edit-modal');
+		if (editModal) {
+			editModal.style.display = 'none';
+		}
+	}
+
+	function openPasswordModal() {
+		const passwordModal = document.getElementById('password-modal');
+		if (passwordModal) {
+			passwordModal.style.display = 'flex';
+		}
+	}
+
+	function closePasswordModal() {
+		const passwordModal = document.getElementById('password-modal');
+		if (passwordModal) {
+			passwordModal.style.display = 'none';
+		}
+	}
+
+	// Form submissions
+	document.addEventListener('DOMContentLoaded', function() {
+		// Edit profile form
+		const editForm = document.getElementById('edit-form');
+		if (editForm) {
+			editForm.addEventListener('submit', function(e) {
+				e.preventDefault();
+				
+				const currentUser = localStorage.getItem('gm_current');
+				const users = JSON.parse(localStorage.getItem('gm_users') || '[]');
+				const userIndex = users.findIndex(u => u.email === currentUser);
+				
+				if (userIndex !== -1) {
+					// Update user data
+					users[userIndex].name = document.getElementById('edit-name').value;
+					users[userIndex].role = document.getElementById('edit-role').value;
+					users[userIndex].year = document.getElementById('edit-year').value;
+					users[userIndex].stream = document.getElementById('edit-stream').value;
+					
+					// Update interests
+					const interestsText = document.getElementById('edit-interests').value;
+					users[userIndex].interests = interestsText.split(',').map(s => s.trim()).filter(s => s);
+					
+					// Save to localStorage
+					localStorage.setItem('gm_users', JSON.stringify(users));
+					
+					// Reload profile data
+					loadProfileData();
+					closeEditModal();
+					
+					alert('Profile updated successfully!');
+				}
+			});
+		}
+
+		// Password change form
+		const passwordForm = document.getElementById('password-form');
+		if (passwordForm) {
+			passwordForm.addEventListener('submit', function(e) {
+				e.preventDefault();
+				
+				const currentPassword = document.getElementById('current-password').value;
+				const newPassword = document.getElementById('new-password').value;
+				const confirmPassword = document.getElementById('confirm-password').value;
+				
+				if (newPassword !== confirmPassword) {
+					alert('New passwords do not match!');
+					return;
+				}
+				
+				const currentUser = localStorage.getItem('gm_current');
+				const users = JSON.parse(localStorage.getItem('gm_users') || '[]');
+				const userIndex = users.findIndex(u => u.email === currentUser);
+				
+				if (userIndex !== -1 && users[userIndex].password === currentPassword) {
+					users[userIndex].password = newPassword;
+					localStorage.setItem('gm_users', JSON.stringify(users));
+					closePasswordModal();
+					alert('Password updated successfully!');
+					
+					// Clear form
+					passwordForm.reset();
+				} else {
+					alert('Current password is incorrect!');
+				}
+			});
+		}
+	});
+
+	// Password toggle functionality
+	function setupPasswordToggles() {
+		const toggles = document.querySelectorAll('.password-toggle');
+		toggles.forEach(toggle => {
+			toggle.addEventListener('click', function() {
+				const input = this.previousElementSibling;
+				const type = input.getAttribute('type') === 'password' ? 'text' : 'password';
+				input.setAttribute('type', type);
+				
+				// Toggle button appearance
+				this.textContent = type === 'password' ? '👁️' : '🙈';
+			});
+		});
+	}
+
+	// Close modals when clicking outside
+	window.addEventListener('click', function(e) {
+		const editModal = document.getElementById('edit-modal');
+		const passwordModal = document.getElementById('password-modal');
+		
+		if (e.target === editModal) {
+			closeEditModal();
+		}
+		if (e.target === passwordModal) {
+			closePasswordModal();
+		}
+	});
+
+	// Initialize page
+	document.addEventListener('DOMContentLoaded', function() {
+		loadProfileData();
+		setupPasswordToggles();
+	});
+	</script>
+</body>
+</html>
