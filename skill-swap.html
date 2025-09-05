@@ -1,147 +1,269 @@
-<!-- skill-swap.html -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
-	<meta charset="UTF-8"/><meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-	<title>Skill Swap & Team Finder</title>
-	<link rel="stylesheet" href="styles.css"/>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Skill Swap & Team Finder - CampusConnect</title>
+    <link rel="stylesheet" href="skill-swap.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 </head>
-<body>
-	<header class="nav">
-		<div class="nav-left">
-			<a href="index.html" class="brand">
-				<div class="brand-logo">CC</div>
-				<div class="brand-text">CampusConnect</div>
-			</a>
-		</div>
-		<div class="nav-center">
-			<a href="index.html" class="nav-link">Home</a>
-			<a href="mentorship.html" class="nav-link">Mentorship Hub</a>
-			<a href="events.html" class="nav-link">Events & Opportunities</a>
-			<a href="skill-swap.html" class="nav-link active">Skill Swap & Team Finder</a>
-			<a href="anonymous-chat.html" class="nav-link">Anonymous Chat</a>
-			<a href="index.html#about-us" class="nav-link">About Us</a>
-		</div>
-		<div class="nav-right">
-			<div class="notifications-wrapper">
-				<button class="notifications-btn" id="notifications-btn">
-					<span class="notification-icon">🔔</span>
-					<span class="notification-badge" id="notification-badge">1</span>
-				</button>
-				<div class="notifications-dropdown" id="notifications-dropdown">
-					<div class="notification-header">
-						<h3>Notifications</h3>
-						<button class="clear-all-btn" id="clear-all-notifications">Clear All</button>
-					</div>
-					<div class="notifications-list">
-						<div class="notification-item unread">
-							<div class="notification-icon-item">🤝</div>
-							<div class="notification-content">
-								<div class="notification-title">New Team Request</div>
-								<div class="notification-text">Alex wants to join your React project</div>
-								<div class="notification-time">10 minutes ago</div>
-							</div>
-						</div>
-					</div>
-				</div>
-			</div>
-			<div class="profile-dropdown">
-				<div class="nav-avatar" id="nav-avatar">AM</div>
-				<div class="profile-menu" id="profile-menu">
-					<button class="profile-menu-item" onclick="viewProfile()">
-						<span>👤</span> View Profile
-					</button>
-					<button class="profile-menu-item" onclick="editProfile()">
-						<span>✏️</span> Edit Profile
-					</button>
-					<button class="profile-menu-item logout" onclick="logout()">
-						<span>🚪</span> Logout
-					</button>
-				</div>
-			</div>
-			<button class="menu-toggle" id="menu-toggle">
-				<span></span>
-				<span></span>
-				<span></span>
-			</button>
-		</div>
-	</header>
+<body class="bg-slate-900 text-gray-300">
 
-	<!-- Mobile Menu -->
-	<div class="mobile-menu" id="mobile-menu">
-		<nav class="mobile-nav">
-			<a href="index.html">Home</a>
-			<a href="mentorship.html">Mentorship Hub</a>
-			<a href="events.html">Events & Opportunities</a>
-			<a href="skill-swap.html">Skill Swap & Team Finder</a>
-			<a href="anonymous-chat.html">Anonymous Chat</a>
-			<a href="profile.html">Profile</a>
-			<a href="index.html#about-us">About Us</a>
-			<!-- Auth buttons for non-authenticated users -->
-			<div class="mobile-auth" id="mobile-auth">
-				<a class="btn ghost" href="auth.html#signin">Sign In</a>
-				<a class="btn solid" href="auth.html#signup">Sign Up</a>
-			</div>
-			<!-- Logout option for authenticated users -->
-			<div class="mobile-logout" id="mobile-logout" style="display: none;">
-				<button class="btn ghost logout-btn-mobile" id="logout-btn-mobile">
-					<span class="logout-icon">🚪</span>
-					Logout
-				</button>
-			</div>
-		</nav>
-	</div>
+    <!-- Navbar -->
+    <nav class="bg-slate-800 shadow-md">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-16">
+                <!-- Logo -->
+                <div class="flex-shrink-0 flex items-center">
+                    <div class="w-8 h-8 bg-gradient-to-r from-blue-500 to-purple-600 rounded-lg"></div>
+                    <span class="ml-3 text-xl font-bold text-white">CampusConnect</span>
+                </div>
 
-	<section class="features" style="margin-top:20px">
-		<h2>Skill Swap & Team Finder</h2>
-		<div class="form-grid" style="margin:12px 0">
-			<div class="form-row">
-				<label>You can teach</label>
-				<input id="teach" placeholder="e.g. Java, UI/UX, SQL"/>
-			</div>
-			<div class="form-row">
-				<label>You want to learn</label>
-				<input id="learn" placeholder="e.g. TensorFlow, Backend, Flutter"/>
-			</div>
-		</div>
-		<div class="form-actions">
-			<button class="btn solid" id="post">Post</button>
-			<p class="small">Find teammates for hacks and projects.</p>
-		</div>
-		<hr class="sep"/>
-		<div id="posts" class="features-grid"></div>
-	</section>
+                <!-- Menu Links -->
+                <div class="hidden sm:ml-6 sm:flex sm:space-x-8">
+                    <a href="#" class="text-gray-400 hover:text-white inline-flex items-center px-1 pt-1 border-b-2 border-transparent text-sm font-medium">Home</a>
+                    <a href="#" class="text-gray-400 hover:text-white inline-flex items-center px-1 pt-1 border-b-2 border-transparent text-sm font-medium">Mentorship Hub</a>
+                    <a href="#" class="text-gray-400 hover:text-white inline-flex items-center px-1 pt-1 border-b-2 border-transparent text-sm font-medium">Events & Opportunities</a>
+                    <a href="#" class="text-indigo-400 border-indigo-400 inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium">Skill Swap & Team Finder</a>
+                    <a href="#" class="text-gray-400 hover:text-white inline-flex items-center px-1 pt-1 border-b-2 border-transparent text-sm font-medium">Anonymous Chat</a>
+                </div>
 
-	<script src="script.js"></script>
-	<script src="shared.js"></script>
-	<script>
-	const email=localStorage.getItem('gm_current');
-	const users=JSON.parse(localStorage.getItem('gm_users')||'[]');
-	const me=users.find(u=>u.email===email);
-	const posts=JSON.parse(localStorage.getItem('gm_posts')||'[]');
-	function save(){ localStorage.setItem('gm_posts',JSON.stringify(posts)); }
-	function render(){
-		const box=document.getElementById('posts'); box.innerHTML='';
-		posts.slice().reverse().forEach(p=>{
-			const el=document.createElement('div'); el.className='feature';
-			el.innerHTML=`<h4>${p.title}</h4>
-				<p>Teach: ${p.teach.join(', ')||'-'} • Learn: ${p.learn.join(', ')||'-'}</p>
-				<p class="small">By ${p.byName} (${p.role}, ${p.stream})</p>`;
-			box.appendChild(el);
-		});
-	}
-	document.getElementById('post').onclick=()=>{
-		if(!me){ alert('Please sign in to post.'); return; }
-		const teach=document.getElementById('teach').value.split(',').map(s=>s.trim()).filter(Boolean);
-		const learn=document.getElementById('learn').value.split(',').map(s=>s.trim()).filter(Boolean);
-		if(!teach.length && !learn.length){ alert('Add at least one skill.'); return; }
-		posts.push({
-			title:`Team/Swap by ${me.name}`,
-			teach,learn,by:me.email,byName:me.name,role:me.role,stream:me.stream,at:Date.now()
-		});
-		save(); render(); document.getElementById('teach').value=''; document.getElementById('learn').value='';
-	};
-	render();
-	</script>
+                <!-- Sign In/Up Buttons -->
+                <div class="hidden sm:ml-6 sm:flex sm:items-center">
+                    <a href="#" class="text-gray-300 hover:bg-slate-700 font-medium py-2 px-4 border border-slate-600 rounded-lg text-sm">Sign In</a>
+                    <a href="#" class="ml-3 inline-flex items-center justify-center px-4 py-2 border border-transparent text-sm font-medium rounded-xl text-white bg-gradient-to-r from-blue-500 to-purple-600 hover:from-blue-600 hover:to-purple-700 shadow-lg hover:shadow-blue-500/50 transition-all duration-300">Sign Up</a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+        <!-- Search and Filters -->
+        <div class="flex items-end mb-8">
+            <div class="w-full max-w-lg mr-12">
+                <label for="search" class="block text-sm font-medium text-gray-300 mb-2 pl-1">Filter by Skill</label>
+                <div class="relative">
+                    <input id="search" type="text" placeholder="e.g. Python, Graphic Design" class="w-full pl-10 pr-4 py-2 bg-slate-800 border border-slate-700 rounded-lg focus:ring-blue-500 focus:border-blue-500 text-white">
+                    <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                        <svg class="h-5 w-5 text-gray-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+                            <path fill-rule="evenodd" d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z" clip-rule="evenodd" />
+                        </svg>
+                    </div>
+                </div>
+            </div>
+            <div class="ml-6">
+                <label for="filter" class="block text-sm font-medium text-gray-300 mb-2">Looking for</label>
+                <div class="relative">
+                    <select id="filter" class="custom-select w-48 pl-3 pr-8 py-2 bg-slate-800 border border-slate-700 rounded-lg focus:ring-blue-500 focus:border-blue-500 text-white">
+                        <option>All</option>
+                        <option>Skill Swap</option>
+                        <option>Team Project</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+
+        <!-- Card Grid -->
+        <div id="posts-list" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+            <!-- Cards will be injected here by JavaScript -->
+        </div>
+    </main>
+
+    <div id="modal" class="fixed inset-0 bg-black bg-opacity-50 z-50 hidden items-center justify-center p-4 fade-in">
+        <div id="modal-content" class="bg-slate-800 rounded-2xl shadow-lg w-full max-w-2xl p-8 transform transition-all duration-300">
+            <!-- Close Button -->
+            <!-- Modal Header -->
+            <div class="flex justify-between items-center mb-4">
+                <h2 id="modal-title" class="text-2xl font-bold text-white"></h2>
+                <button id="modal-close" class="text-gray-400 hover:text-white bg-transparent border-none rounded-full p-1">
+                    <svg class="h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                    </svg>
+                </button>
+            </div>
+            <span id="modal-category" class="text-xs font-semibold inline-block py-1 px-3 uppercase rounded-full text-teal-300 bg-teal-900 mt-2"></span>
+            <p id="modal-posted-by" class="text-sm text-white font-bold mt-2"></p>
+            
+            <div class="mt-4 flex items-center">
+                <h4 class="text-sm font-semibold text-white mr-2">Offering:</h4>
+                <div id="modal-offering" class="flex flex-wrap gap-2"></div>
+            </div>
+
+            <div class="mt-2 flex items-center">
+                <h4 class="text-sm font-semibold text-white mr-2">Seeking:</h4>
+                <div id="modal-seeking" class="flex flex-wrap gap-2"></div>
+            </div>
+
+            <div class="mt-4">
+                <h4 class="text-md font-semibold text-gray-300">Description:</h4>
+                <p id="modal-description" class="text-gray-400 text-sm mt-2"></p>
+            </div>
+
+            <div class="mt-4">
+                <h4 class="text-md font-semibold text-gray-300">Contact:</h4>
+                <p id="modal-contact" class="text-gray-400 text-sm mt-2"></p>
+            </div>
+
+            <div class="mt-6">
+                <button id="send-request-btn" class="w-70-percent inline-flex items-center justify-center px-4 py-2 border border-transparent text-base font-medium rounded-lg text-white bg-gradient-to-r from-blue-500 to-purple-600 hover:from-blue-600 hover:to-purple-700 shadow-lg hover:shadow-blue-500/50 transition-all duration-300 my-2">
+                    Send Request
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const samplePosts = [
+            { id: 1, title: 'Learn Python, Teach JS', type: 'Skill Swap', teach: ['JavaScript', 'HTML', 'CSS'], learn: ['Python'], by: 'Alex', stream: 'CS', description: 'I am a proficient web developer looking to learn Python for data science. I can teach you the fundamentals of front-end development in return.', contact: 'alex@campus.com' },
+            { id: 2, title: 'Build a Campus App',type: 'Team Project', teach: ['Project Management'], learn: ['React Native', 'Firebase'], by: 'Brenda', stream: 'IT', description: 'Looking for motivated team members to build a new app for our campus. We need developers and designers. I will be managing the project.', contact: 'brenda@campus.com' },
+            { id: 3, title: 'Graphic Design for Web Dev', type: 'Skill Swap', teach: ['Web Development'], learn: ['Graphic Design', 'Figma'], by: 'Chris', stream: 'Design', description: 'I can build you a website from scratch. In return, I want to learn graphic design principles and how to use Figma effectively.', contact: 'chris@campus.com' },
+            { id: 4, title: 'Hackathon Team for AI', type: 'Team Project', teach: ['Python', 'TensorFlow'], learn: ['UI/UX Design'], by: 'Diana', stream: 'AI/ML', description: 'Forming a team for the upcoming AI hackathon. I have experience with machine learning models. We need a good UI/UX designer to make our project shine.', contact: 'diana@campus.com' }
+        ];
+
+        function renderPosts() {
+            const list = document.getElementById('posts-list');
+            const searchTerm = document.querySelector('input[type="text"]').value.toLowerCase();
+            list.innerHTML = '';
+
+            const filteredPosts = samplePosts.filter(p => {
+                const offering = p.teach.join(' ').toLowerCase();
+                const seeking = p.learn.join(' ').toLowerCase();
+                return p.title.toLowerCase().includes(searchTerm) || offering.includes(searchTerm) || seeking.includes(searchTerm);
+            });
+
+            filteredPosts.forEach(p => {
+                const card = document.createElement('div');
+                card.className = 'bg-slate-800 rounded-2xl shadow-lg hover:shadow-blue-500/20 transform hover:-translate-y-1 transition-all duration-300';
+                
+                const offeringBadges = p.teach.map(skill => `<span class="inline-block bg-blue-900 text-blue-300 text-xs font-medium mr-2 px-3 py-1 rounded-full">${skill}</span>`).join('');
+                const seekingBadges = p.learn.map(skill => `<span class="inline-block bg-purple-900 text-purple-300 text-xs font-medium mr-2 px-3 py-1 rounded-full">${skill}</span>`).join('');
+
+                card.innerHTML = `
+                    <div class="p-4">
+                        <h3 class="text-lg font-bold text-white mt-4">${p.title}</h3>
+                        <div class="flex justify-between items-start mt-2">
+                            <span class="text-xs font-semibold inline-block py-2 px-3 uppercase rounded-full text-teal-300 bg-teal-900">
+                                ${p.type}
+                            </span>
+                        </div>
+                        <p class="text-sm text-white font-bold mt-1">Posted by: ${p.by} (${p.stream})</p>
+                        
+                        <div class="mt-1 flex items-center">
+                            <h4 class="text-sm font-semibold text-white mr-2">Offering:</h4>
+                            <div>
+                                ${offeringBadges}
+                            </div>
+                        </div>
+
+                        <div class="mt-1 flex items-center">
+                            <h4 class="text-sm font-semibold text-white mr-2">Seeking:</h4>
+                            <div>
+                                ${seekingBadges}
+                            </div>
+                        </div>
+
+                        <div class="mt-6 flex justify-between items-center">
+                            <a href="#" class="request-btn inline-flex items-center justify-center px-4 py-2 border border-transparent text-sm font-medium rounded-lg text-white bg-gradient-to-r from-blue-500 to-purple-600 hover:from-blue-600 hover:to-purple-700 shadow-md hover:shadow-lg transition-all duration-300">Request</a>
+                            <button data-post-id="${p.id}" class="more-info-btn text-gray-300 font-medium py-2 px-4 rounded-lg text-sm bg-transparent border-none cursor-pointer">More Info</button>
+                        </div>
+                    </div>
+                `;
+                list.appendChild(card);
+            });
+
+            // Add event listeners after rendering all cards
+            addEventListeners();
+        }
+
+        function addEventListeners() {
+            document.querySelectorAll('.more-info-btn').forEach(button => {
+                button.addEventListener('click', (e) => {
+                    const postId = parseInt(e.currentTarget.getAttribute('data-post-id'));
+                    const post = samplePosts.find(p => p.id === postId);
+                    openModal(post);
+                });
+            });
+
+            document.querySelectorAll('.request-btn').forEach(button => {
+                button.addEventListener('click', handleRequestClick);
+            });
+        }
+
+        function openModal(post) {
+            document.getElementById('modal-title').textContent = post.title;
+            document.getElementById('modal-category').textContent = post.type;
+            document.getElementById('modal-posted-by').textContent = `Posted by: ${post.by} (${post.stream})`;
+            
+            const offeringContainer = document.getElementById('modal-offering');
+            offeringContainer.innerHTML = post.teach.map(skill => `<span class="inline-block bg-blue-900 text-blue-300 text-xs font-medium px-3 py-1 rounded-full">${skill}</span>`).join('');
+
+            const seekingContainer = document.getElementById('modal-seeking');
+            seekingContainer.innerHTML = post.learn.map(skill => `<span class="inline-block bg-purple-900 text-purple-300 text-xs font-medium px-3 py-1 rounded-full">${skill}</span>`).join('');
+
+            document.getElementById('modal-description').textContent = post.description;
+            document.getElementById('modal-contact').textContent = post.contact;
+
+            const modal = document.getElementById('modal');
+            modal.classList.remove('hidden');
+            modal.classList.add('flex');
+        }
+
+        function closeModal() {
+            const modal = document.getElementById('modal');
+            const modalContent = document.getElementById('modal-content');
+            modalContent.classList.add('fade-out');
+            setTimeout(() => {
+                modal.classList.add('hidden');
+                modal.classList.remove('flex');
+                modalContent.classList.remove('fade-out');
+                resetSendRequestButton();
+            }, 300);
+        }
+
+        function resetSendRequestButton() {
+            const btn = document.getElementById('send-request-btn');
+            btn.innerHTML = 'Send Request';
+            btn.disabled = false;
+            btn.classList.remove('bg-green-500');
+            btn.classList.add('bg-gradient-to-r', 'from-blue-500', 'to-purple-600');
+        }
+
+        function handleRequestClick(event) {
+            event.preventDefault();
+            const btn = event.currentTarget;
+
+            if (btn.disabled) {
+                return;
+            }
+
+            btn.disabled = true;
+
+            setTimeout(() => {
+                btn.innerHTML = '<svg class="checkmark" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 52 52"><circle class="checkmark-circle" cx="26" cy="26" r="25" fill="none"/><path class="checkmark-check" fill="none" d="M14.1 27.2l7.1 7.2 16.7-16.8"/></svg> Requested';
+                btn.classList.add('bg-green-500');
+                btn.classList.remove('bg-gradient-to-r', 'from-blue-500', 'to-purple-600');
+            }, 1500);
+        }
+
+        // Initial render
+        renderPosts();
+
+        // And re-run renderPosts on search
+        document.querySelector('input[type="text"]').addEventListener('input', renderPosts);
+
+        // Event listeners for modal
+        document.getElementById('modal-close').addEventListener('click', closeModal);
+        document.getElementById('modal').addEventListener('click', (e) => {
+            if (e.target.id === 'modal') {
+                closeModal();
+            }
+        });
+
+        // Event listener for the request button in the modal
+        document.getElementById('send-request-btn').addEventListener('click', handleRequestClick);
+
+    </script>
 </body>
 </html>
